@@ -9,6 +9,6 @@ interface IAuthService
 {
     public function login(User $model): bool;
     public function register(User $model): bool;
-    public function findById(int $id): User;
-    public function findByUsername(string $username): User;
+    public function findById(int $id): array;
+    public function findByUsername(string $username): array;
 }

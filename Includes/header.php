@@ -27,14 +27,14 @@ session_start();
             <div class="uk-navbar-right nav-overlay">
                 <ul class="uk-navbar-nav">
                     <?php 
-                        if( empty($_SESSION['current_user']) ) {
+                        if( !isset($_SESSION['current_user']) ) {
                     ?>
                         <li><a class="uk-visible@s" href="login">Login</a></li>
                         <li><a class="uk-visible@s" href="register">Register</a></li>
                     <?php 
                         } else {
                     ?>
-                        <li><a class="uk-visible@s" href="login">Logout</a></li>
+                        <li><a class="uk-visible@s" href="logout">Logout</a></li>
                     <?php 
                         }
                     ?>

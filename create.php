@@ -3,6 +3,9 @@
 include 'Includes/header.php'; 
 include 'Services/StudentService.php';
 
+// Initialize Auth serivce
+$service = new Services\StudentService();
+
 $error_messages = array();
 $name = $_POST['name'] ?? '';
 $age = $_POST['age'] ?? '';

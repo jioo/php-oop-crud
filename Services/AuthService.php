@@ -16,18 +16,18 @@ class AuthService extends DefaultDbContext implements IAuthService
 
     public function login(User $model): bool {
         // Get the hashed password in db
-        $model = $this->findByuserName($model['username']);
-        $hashed_password = $model['password'];
+        $user = $this->findByuserName($model->username);
+        $hashed_password = $user['password'];
 
         // Validate password
-        $validate = password_verify($model['password'], $hashed_password);
+        $validate = password_verify($model->password, $hashed_password);
 
         return $validate;
     }
 
     public function register(User $model): bool {
         // hash password
-        $model['password'] = password_hash($model['password'], PASSWORD_DEFAULT);
+        $model->password = password_hash($model->password, PASSWORD_DEFAULT);
         
         $query = "INSERT INTO users (id, name, username, password) value (:id, :name, :username, :password)";
         $stmt = $this->db->prepare($query);
@@ -35,7 +35,7 @@ class AuthService extends DefaultDbContext implements IAuthService
         return $stmt->execute((array) $model);
     }
 
-    public function findById(int $id): User {
+    public function findById(int $id): array {
         $query = "SELECT * FROM users WHERE id = :id";
 
         $stmt = $this->db->prepare($query);
@@ -43,12 +43,13 @@ class AuthService extends DefaultDbContext implements IAuthService
         $stmt->bindParam(":id", $id);
         
         $stmt->execute();
-
-        return  $stmt->fetch(\PDO::FETCH_ASSOC);
+        
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        
+        return $result ?? array();
     }
-
     
-    public function findByUsername(string $username): User {
+    public function findByUsername(string $username): array {
         $query = "SELECT * FROM users WHERE username = :username";
 
         $stmt = $this->db->prepare($query);
@@ -57,6 +58,8 @@ class AuthService extends DefaultDbContext implements IAuthService
 
         $stmt->execute();
 
-        return  $stmt->fetch(\PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        
+        return $result ?? array();
     }
 }
