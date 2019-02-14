@@ -1,3 +1,6 @@
+<?php 
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,18 +19,27 @@
         <nav id="navbar" data-uk-navbar="mode: click;">
             <div class="uk-navbar-left nav-overlay uk-visible@m">
                 <ul class="uk-navbar-nav">
-                    <li>
-                        <a href="index" title="Home">Home</a>
-                    </li>
-                    <li>
-                        <a href="create" title="Create">Create</a>
-                    </li>
+                    <li><a href="index">Home</a></li>
+                    <li><a href="create">Create</a></li>
+                    <li><a href="protected">Protected</a></li>
                 </ul>
             </div>
             <div class="uk-navbar-right nav-overlay">
-                <div class="uk-navbar-item">
-                    <a class="uk-navbar-toggle uk-hidden@m" data-uk-toggle data-uk-navbar-toggle-icon href="#offcanvas-nav"></a>
-                </div>
+                <ul class="uk-navbar-nav">
+                    <?php 
+                        if( empty($_SESSION['current_user']) ) {
+                    ?>
+                        <li><a class="uk-visible@s" href="login">Login</a></li>
+                        <li><a class="uk-visible@s" href="register">Register</a></li>
+                    <?php 
+                        } else {
+                    ?>
+                        <li><a class="uk-visible@s" href="login">Logout</a></li>
+                    <?php 
+                        }
+                    ?>
+                    <li><a class="uk-navbar-toggle uk-hidden@m" data-uk-toggle data-uk-navbar-toggle-icon href="#offcanvas-nav"></a></li>
+                </ul>
             </div>
         </nav>
     </div>
