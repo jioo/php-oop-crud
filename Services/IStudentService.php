@@ -1,7 +1,8 @@
 <?php
 namespace Services;
 
-include 'Models/Student.php';
+include($_SERVER['INCLUDE_PATH'] . "Models/Student.php");
+
 use Models\Student;
 
 interface IStudentService
@@ -25,9 +26,9 @@ interface IStudentService
      * Get details of specific student
      *
      * @param   int  $id   model Id to find
-     * @return  array
+     * @return  any
      */
-    public function findById(int $id): array;
+    public function findById(int $id);
 
     /**
      * Update existing student

@@ -1,8 +1,8 @@
 <?php
 namespace Services;
 
-include 'Config/DefaultDbContext.php';
-include 'IStudentService.php';
+include($_SERVER['INCLUDE_PATH'] . "Config/DefaultDbContext.php");
+include($_SERVER['INCLUDE_PATH'] . "Services/IStudentService.php");
 
 use Config\DefaultDbContext;
 use Services\IStudentService;
@@ -18,7 +18,7 @@ class StudentService extends DefaultDbContext implements IStudentService
 
     public function getAll(): array
     {
-        $query = "SELECT * FROM students";
+        $query = "SELECT * FROM students ORDER BY id DESC";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
 
@@ -33,13 +33,15 @@ class StudentService extends DefaultDbContext implements IStudentService
         return $stmt->execute((array) $model);
     }
 
-    public function findById(int $id): array
+    public function findById(int $id)
     {
         $stmt = $this->db->prepare("SELECT * FROM students WHERE id = :id");
         $stmt->bindParam(":id", $id);
         $stmt->execute();
 
-        return $stmt->fetch(\PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        
+        return $result ?? array();
     }
 
     public function update(Student $model): bool
