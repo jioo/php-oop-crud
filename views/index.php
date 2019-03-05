@@ -149,6 +149,8 @@
 
         if (!result) return;
 
+        clearForm();
+
         let formData = new FormData();
         formData.append('id', id);
 
