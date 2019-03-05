@@ -1,10 +1,11 @@
 <?php
-namespace Services;
+namespace App\Interfaces;
 
-include 'Models/Student.php';
-use Models\Student;
+require_once $_SERVER['INCLUDE_PATH'].'App/Models/Student.php';
 
-interface IStudentService
+use App\Models\Student;
+
+interface StudentInterface
 {
     /**
      * Get all students
@@ -25,15 +26,15 @@ interface IStudentService
      * Get details of specific student
      *
      * @param   int  $id   model Id to find
-     * @return  array
+     * @return  Student
      */
-    public function findById(int $id): array;
+    public function findById(int $id): Student;
 
     /**
      * Update existing student
      *
      * @param   `Student`  $model   model for Student class
-     * @return  array
+     * @return  bool
      */
     public function update(Student $model): bool;
 

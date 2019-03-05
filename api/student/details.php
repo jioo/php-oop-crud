@@ -1,8 +1,10 @@
 <?php
-include 'Services/StudentService.php';
+require_once $_SERVER['INCLUDE_PATH'].'autoload.php';
+
+use App\Classes\StudentClass;
 
 try {
-    $service = new Services\StudentService();
+    $service = new StudentClass();
 
     $id = $_GET['id'];
 

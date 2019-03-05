@@ -43,10 +43,8 @@
 
 
 <script>
-    (function() {
-        // initialize student list
-        getList();
-    }());
+    // initialize student list
+    getList();
 
     let onCreate = true;
     const tableContent = document.querySelector("#table-content");
@@ -58,7 +56,7 @@
         $course = document.querySelector("input[name='course']");
 
     function getList() {
-        fetch('list.php').then(res => {
+        fetch('api/student/list.php').then(res => {
             return res.json();
         })
         .then(data => {
@@ -105,7 +103,7 @@
         const data = generateFormData();
 
         // send a post request to create new data
-        fetch('create.php', {
+        fetch('api/student/create.php', {
             method: 'POST',
             body: data
         })
@@ -119,7 +117,7 @@
 
     function setDetails(id) {
 
-        fetch(`details.php?id=${id}`)
+        fetch(`api/student/details.php?id=${id}`)
         .then(res => {
             return res.json();
         })
@@ -135,7 +133,7 @@
     function update() {
         const data = generateFormData();
 
-        fetch('update.php', {
+        fetch('api/student/update.php', {
             method: 'POST',
             body: data
         })
@@ -154,7 +152,7 @@
         let formData = new FormData();
         formData.append('id', id);
 
-        fetch('delete.php', {
+        fetch('api/student/delete.php', {
             method: 'POST',
             body: formData,
         })

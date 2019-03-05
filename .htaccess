@@ -1,0 +1,17 @@
+RewriteEngine On
+
+# Rule to remove a subfolder from a URL
+RewriteRule ^$ views/
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteRule ^(.*)$ views/$1
+
+# Rule for remove `.php` in URL
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^ %{REQUEST_URI}.php [L]
+
+# Define base URL:
+SetEnv BASE_URL http://localhost/php-oop-crud/
+
+# Define INCLUDE_PATH
+RewriteRule ^ - [E=INCLUDE_PATH:%{DOCUMENT_ROOT}/php-oop-crud/,L]

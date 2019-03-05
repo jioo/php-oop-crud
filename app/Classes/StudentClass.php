@@ -1,14 +1,14 @@
 <?php
-namespace Services;
+namespace App\Classes;
 
-include 'Config/DefaultDbContext.php';
-include 'IStudentService.php';
+require_once $_SERVER['INCLUDE_PATH'].'App/Config/DefaultDbContext.php';
+require_once $_SERVER['INCLUDE_PATH'].'App/Interfaces/StudentInterface.php';
 
-use Config\DefaultDbContext;
-use Services\IStudentService;
-use Models\Student;
+use App\Config\DefaultDbContext;
+use App\Interfaces\StudentInterface;
+use App\Models\Student;
 
-class StudentService extends DefaultDbContext implements IStudentService
+class StudentClass extends DefaultDbContext implements StudentInterface
 {
     // class constructor
     public function __construct()
@@ -22,7 +22,7 @@ class StudentService extends DefaultDbContext implements IStudentService
         $stmt = $this->db->prepare($query);
         $stmt->execute();
 
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(\PDO::FETCH_CLASS, Student::class);
     }
 
     public function create(Student $model): bool
@@ -33,13 +33,17 @@ class StudentService extends DefaultDbContext implements IStudentService
         return $stmt->execute((array) $model);
     }
 
-    public function findById(int $id): array
+    public function findById(int $id): Student
     {
         $stmt = $this->db->prepare("SELECT * FROM students WHERE id = :id");
         $stmt->bindParam(":id", $id);
         $stmt->execute();
-
-        return $stmt->fetch(\PDO::FETCH_ASSOC);
+        
+        // Fetch result and map to model
+        $result = $stmt->fetchObject(Student::class);
+        
+        // If course does not exists, return empty object
+        return ($result != false) ? $result : new Student();
     }
 
     public function update(Student $model): bool
